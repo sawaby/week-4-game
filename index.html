@@ -34,17 +34,13 @@
 						
 						<div id="character-1" class="box">
 
-							<p>Laura Dee</p>
-				 			<!-- <div class="desc">22</div> -->
 						 </div>
-
-						 <!-- <p id="hp">34</p> -->
 						
 					</div>
 
 					<div class="col-md-3">
 						<div id="character-2" class="box">
-							<p>Bob Lee</p>
+							
 						</div>
 
 					</div>
@@ -70,10 +66,17 @@
 
 		<!-- attack button row -->
 		<div class="row">
-			<div class="col-md-3">
-				<button>
-				
-				</button>
+			<div class="col-md-2" >
+				<p>YOUR CHARACTER!</p>
+			</div>
+			<!-- fight section where attack button is located -->
+			<div class="col-md-4 text-right" >
+				<p>Fight Section</p>
+				<button id="attackButton" class="btn btn-danger">Attack</button>
+			</div>
+			<!-- Defender -->
+			<div class="col-md-6 text-right" >
+				<h2>DEFENDER</h2>
 			</div>
 		</div>
 			
@@ -82,17 +85,24 @@
 		<div class="row">
 			<!-- this col is for restart button and text about defeats and wins -->
 			<div class="col-md-6">
+				<div id="attackCounter">
+				</div>
 				<!-- text goes here -->
-				<p>this is for test</p>
-				<!-- restart button -->
-				<button>
 				
-				</button>
+				<!-- restart button -->
+				 <button id="resetButton" class="btn btn-default">Restart</button>
 			</div>
 
-			<!-- enemies -->
-			<div class="col-md-6">
-				
+			<!-- enemies right column -->
+			<div class="col-md-6 text-right">
+			<!-- enemies here -->
+				<div class="row">
+					<div class="col-md-12 invisibleBox">
+						
+					</div>
+				</div>
+				<!-- text here -->
+				<p id="p">Enemies Available to Attack</p>
 			</div>
 
 		</div>

@@ -5,14 +5,11 @@ body{
   	color: #000;
   	font-family:  'Bahiana', cursive;
   	letter-spacing: 3px;
-  	font-size: 18px;
+  	font-size: 20px;
   	line-height: 1px;
   	
 }
-/*header{
-	width: 50px;
-	background-image: url("../images/header.jpg");
-}*/
+
 h1{
 	font-size: 60px;
 	font-weight: bolder;
@@ -24,17 +21,49 @@ h1{
     width: 150px;
     background-color: white;
     color: #000;
-    padding: 10px 13px;
     border: 1.5px solid #00ff00;
     text-align: center;
-	
+    margin-bottom: 20px;
 }
 .boxImage{
 	height: 90px;
     width: 120px; 
+    /*float: left;*/
+    /*position: absolute;*/
 	
 }
-div.desc {
+/*div.desc {
     padding: 15px;
     text-align: center;
+}*/
+#p{
+	color: red;
+	font-size: 25px;
+}
+.paragraph{
+	font-size: 12px;
+	padding-top: 10px;
+}
+#resetButton{
+	font-size: 24px;
+	padding-top: 1px;
+	padding-bottom: 0px;
+	display: none;
+}
+#attackButton{
+	font-size: 24px;
+	padding: 1px 16px 0 16px;
+
+}
+h2{
+	margin-top: -15px;
+}
+.invisibleBox{
+	height: 130px;
+    width: 150px;
+/*    background-color: white;*/
+   /* color: #000;*/
+   /* border: 1.5px solid #00ff00;*/
+    text-align: center;
+    margin-bottom: 20px;
 }
