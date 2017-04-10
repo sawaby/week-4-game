@@ -58,7 +58,7 @@ h1{
 h2{
 	margin-top: -15px;
 }
-.invisibleBox{
+#invisibleBox{
 	height: 130px;
     width: 150px;
 /*    background-color: white;*/

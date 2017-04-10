@@ -48,7 +48,9 @@ for(var i = 0; i < charArray.length; i++) {
 	var container = $("<div>");
 	var img = $("<img>");
 	img.addClass("boxImage");
-	img.attr("data-charValue", charArray[i].attackPower);
+	img.attr("data-attackPower", charArray[i].attackPower);
+	var hp = img.attr("data-charValue",  charArray[i].healthPoints);
+	console.log(charArray[i].attackPower)
 	img.attr("src", charArray[i].imgSrc);
 	// p tag
 	var nameP = $("<p>")
@@ -65,6 +67,23 @@ for(var i = 0; i < charArray.length; i++) {
 	
 $(".box").on("click", function(){
 
+    $(this).data('clicked', true);
+	attackPower = parseInt($(this).attr("data-attackPower"));
+	healthPoints = parseInt($(this).attr("data-charValue"));
+	//console.log(attackPower);
+	console.log(healthPoints);
+	// move the characters to a different place
+	if($(this).data('clicked')) {
+     	$('#map').replaceWith($(this));
+	}else{
+		$('.box').each(
+    		function(){
+       		$(this).insertBefore($(this).closest('.invisibleBox'));
+    	});
+	}
+	
+	
+	
 
 });	
 
