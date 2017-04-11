@@ -43,16 +43,17 @@ var yodaChar = {
 	attackPower: 10
 };
 var charArray = [hansoloChar, mugChar, chewChar, yodaChar];
-var container = $("<div>");
-function charCreation(id, charArray){
+var container;
+function charCreation(id, charArray, box){
 	for(var i = 0; i < charArray.length; i++) {
 		//TODO handle p tag, and append everything to the contatiner and then the dom
 		container = $("<div>");
+		container.addClass(box);
 		var img = $("<img>");
 		img.addClass("boxImage");
-		img.attr("data-attackPower", charArray[i].attackPower);
-		var hp = img.attr("data-charValue",  charArray[i].healthPoints);
-		console.log(charArray[i].attackPower)
+		container.attr("data-attackPower", charArray[i].attackPower);
+		var hp = container.attr("data-charValue",  charArray[i].healthPoints);
+		//console.log(charArray[i].attackPower)
 		img.attr("src", charArray[i].imgSrc);
 		// p tag
 		var nameP = $("<p>")
@@ -68,7 +69,7 @@ function charCreation(id, charArray){
 	}
 }
 
-charCreation("#character-", charArray);
+charCreation("#character-", charArray, ".box");
 
 
 // when character is clicked add it to a variable called selectedChar
@@ -78,13 +79,13 @@ $(".box").on("click", function(){
 
     var id = $(this).attr('id');
     console.log("idobject"+id);
-   // var num = id.split("-")[1]-1;
+   	var num = id.split("-")[1]-1;
 
-    var selectedChar = charArray[id];
+    var selectedChar = charArray[num];
     index = charArray.indexOf(selectedChar);
-    //console.log(selectedChar);
+    console.log("selectedcharacter"+index);
     var enimies = [];
-   // charArray.splice(index, 1);
+   	charArray.splice(index, 1);
     console.log("charArray"+charArray);
     for (var i = 0; i < charArray.length; i++) {
     	if(charArray[i] != selectedChar) {
@@ -93,28 +94,14 @@ $(".box").on("click", function(){
     }
    // console.log(enimies);
     $('#map').replaceWith($(this));
+
     $(".invisibleBox").show();
-    charCreation("#notselectedchar-", enimies);
+     $(this).off("click");
+    charCreation("#notselectedchar-", enimies, ".invisibleBox");
     //console.log($(this));
 	attackPower = parseInt($(this).attr("data-attackPower"));
 	// healthPoints = parseInt($(this).attr("data-charValue"));
 	console.log("attackPower"+attackPower);
-	// console.log(this);
-	// // move the characters to a different place
-	// if($(this).data('clicked')) {
- //     	$('#map').replaceWith($(this));
-	// 	$('.box').each(function(num, data){
-	// 		if($(this).data('clicked')) {
- //    			console.log(This);
- //       			$(".invisibleBox").append($(this));
-	// 		}
- //       		//$(this).insertBefore($(this).closest('.invisibleBox'));
- //    	});
-	// }
-	
-	
-	
-
 });	
 
 
