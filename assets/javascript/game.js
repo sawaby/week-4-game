@@ -2,7 +2,7 @@
 
 //var healthPoint = 0;
 //var attackPower = 0;
-//var counterAttackPower = 0;
+var counterAttackPower = 0;
 //var name2 = "Bob Lee"
 
 // this array is HP of each character
@@ -43,49 +43,81 @@ var yodaChar = {
 	attackPower: 10
 };
 var charArray = [hansoloChar, mugChar, chewChar, yodaChar];
-for(var i = 0; i < charArray.length; i++) {
-	//TODO handle p tag, and append everything to the contatiner and then the dom
-	var container = $("<div>");
-	var img = $("<img>");
-	img.addClass("boxImage");
-	img.attr("data-attackPower", charArray[i].attackPower);
-	var hp = img.attr("data-charValue",  charArray[i].healthPoints);
-	console.log(charArray[i].attackPower)
-	img.attr("src", charArray[i].imgSrc);
-	// p tag
-	var nameP = $("<p>")
-	nameP.addClass("paragraph");
-	nameP.text(charArray[i].name);
-	var healthP = $("<p>")
-	healthP.addClass("paragraph");
-	healthP.text(charArray[i].healthPoints);
-	container.append(nameP);
-	container.append(img);
-	container.append(healthP);
-	$("#character-"+(i+1)).append(container);
+var container = $("<div>");
+function charCreation(id, charArray){
+	for(var i = 0; i < charArray.length; i++) {
+		//TODO handle p tag, and append everything to the contatiner and then the dom
+		container = $("<div>");
+		var img = $("<img>");
+		img.addClass("boxImage");
+		img.attr("data-attackPower", charArray[i].attackPower);
+		var hp = img.attr("data-charValue",  charArray[i].healthPoints);
+		console.log(charArray[i].attackPower)
+		img.attr("src", charArray[i].imgSrc);
+		// p tag
+		var nameP = $("<p>")
+		nameP.addClass("paragraph");
+		nameP.text(charArray[i].name);
+		var healthP = $("<p>")
+		healthP.addClass("paragraph");
+		healthP.text(charArray[i].healthPoints);
+		container.append(nameP);
+		container.append(img);
+		container.append(healthP);
+		$(id+(i+1)).append(container);
+	}
 }
-	
+
+charCreation("#character-", charArray);
+
+
+// when character is clicked add it to a variable called selectedChar
+// then add the other characters to a array called otherChars
+// then append them to the neccessary containers
 $(".box").on("click", function(){
 
-    $(this).data('clicked', true);
+    var id = $(this).attr('id');
+    console.log("idobject"+id);
+   // var num = id.split("-")[1]-1;
+
+    var selectedChar = charArray[id];
+    index = charArray.indexOf(selectedChar);
+    //console.log(selectedChar);
+    var enimies = [];
+   // charArray.splice(index, 1);
+    console.log("charArray"+charArray);
+    for (var i = 0; i < charArray.length; i++) {
+    	if(charArray[i] != selectedChar) {
+    		enimies.push(charArray[i]);
+    	}
+    }
+   // console.log(enimies);
+    $('#map').replaceWith($(this));
+    $(".invisibleBox").show();
+    charCreation("#notselectedchar-", enimies);
+    //console.log($(this));
 	attackPower = parseInt($(this).attr("data-attackPower"));
-	healthPoints = parseInt($(this).attr("data-charValue"));
-	//console.log(attackPower);
-	console.log(healthPoints);
-	// move the characters to a different place
-	if($(this).data('clicked')) {
-     	$('#map').replaceWith($(this));
-	}else{
-		$('.box').each(
-    		function(){
-       		$(this).insertBefore($(this).closest('.invisibleBox'));
-    	});
-	}
+	// healthPoints = parseInt($(this).attr("data-charValue"));
+	console.log("attackPower"+attackPower);
+	// console.log(this);
+	// // move the characters to a different place
+	// if($(this).data('clicked')) {
+ //     	$('#map').replaceWith($(this));
+	// 	$('.box').each(function(num, data){
+	// 		if($(this).data('clicked')) {
+ //    			console.log(This);
+ //       			$(".invisibleBox").append($(this));
+	// 		}
+ //       		//$(this).insertBefore($(this).closest('.invisibleBox'));
+ //    	});
+	// }
 	
 	
 	
 
 });	
+
+
 
 // // on click function for character 2
 // var parAttack = $("<p>");
@@ -102,4 +134,14 @@ $(".box").on("click", function(){
 
 
 // });
+var parAttack = $("<p>");
+//parAttack.addClass("paragraph");
+//Attack Button
+$("#attackButton").on("click", function(){
+		
+		console.log(attackPower);
+		$("#attackCounter").append(parAttack);
+		counterAttackPower = counterAttackPower + attackPower;
+		parAttack.text("You attacked "+2+" By "+attackPower+" damage!");
 
+});
