@@ -6,13 +6,13 @@ var counterAttackPower = 0;
 var hansoloChar = {
 	imgSrc : "assets/images/hansolo.png",
 	healthPoints: 130,
-	name: "Laura Dee",
+	name: "Han Solo",
 	attackPower: 6
 };
 var mugChar = {
 	imgSrc : "assets/images/Mugshot.png",
 	healthPoints: 120,
-	name: "Bob Lee",
+	name: "Mug Shot",
 	attackPower: 5
 };
 var chewChar = {
@@ -21,16 +21,18 @@ var chewChar = {
 	name: "Chew Bacca",
 	attackPower: 20
 };
-var yodaChar = {
-	imgSrc : "assets/images/yodasmall.jpg",
+var legoChar = {
+	imgSrc : "assets/images/lego.png",
 	healthPoints: 150,
-	name: "Yoda Small",
+	name: "Lego Char",
 	attackPower: 10
 };
 //var attackPower;
-var hp;
-var charArray = [hansoloChar, mugChar, chewChar, yodaChar];
+var playerHp;
+var charArray = [hansoloChar, mugChar, chewChar, legoChar];
 var container;
+var enimyCounterHp =0;
+var healthP;
 function charCreation(id, charArray){
 	for(var i = 0; i < charArray.length; i++) {
 		//TODO handle p tag, and append everything to the contatiner and then the dom
@@ -40,10 +42,10 @@ function charCreation(id, charArray){
 		img.addClass("boxImage");
 		console.log("attack power of first"+charArray[i].attackPower);
 		//container.attr("data-attackPower", charArray[i].attackPower);
-		//container.attr("data-charValue",  charArray[i].healthPoints);
+		//container.attr("data-hpValue",  charArray[i].healthPoints);
 		container.attr({
 			"data-attackPower": charArray[i].attackPower,
-			"data-charValue":  charArray[i].healthPoints,
+			"data-hpValue":  charArray[i].healthPoints,
 			"data-name": charArray[i].name
 		});
 		console.log(container.attr("data-attackPower"));
@@ -53,7 +55,7 @@ function charCreation(id, charArray){
 		var nameP = $("<p>")
 		nameP.addClass("paragraph");
 		nameP.text(charArray[i].name);
-		var healthP = $("<p>")
+		healthP = $("<p>");
 		healthP.addClass("paragraph");
 		healthP.text(charArray[i].healthPoints);
 		container.append(nameP);
@@ -68,23 +70,26 @@ var enimies = [];
 var attackPower;
 var youName;
 var enimyName;
+
 // when character is clicked add it to a variable called selectedChar
 // then add the other characters to a array called otherChars
 // then append them to the neccessary containers
 $(".thecont").parent().on("click", function(){
-	console.log("the object"+ $(this).children());
+	//console.log("the object"+ $(this).children());
     var id = $(this).attr("id");
-    console.log("idobject"+id);
+    //console.log("idobject"+id);
     var num = id.split("-")[1]-1;
-    console.log(num);
+   // console.log(num);
     var selectedChar = charArray[num];
     attackPower = parseInt($(this).children().attr("data-attackPower"));
-    console.log("attackPower"+attackPower);
+    playerHp = parseInt($(this).children().attr("data-hpValue"));
+   // youName = $(this).children().attr("data-name");
+   // console.log("attackPower"+attackPower);
     index = charArray.indexOf(selectedChar);
     //console.log("selectedChar"+selectedChar);
     
     charArray.splice(index, 1);
-    console.log("charArray"+charArray);
+   // console.log("charArray"+charArray);
     for (var i = 0; i < charArray.length; i++) {
     	if(charArray[i] != selectedChar) {
     		enimies.push(charArray[i]);
@@ -97,7 +102,7 @@ $(".thecont").parent().on("click", function(){
     charCreation("#notselectedchar-", enimies);
     //console.log($(this));
 	
-	healthPoints = parseInt($(this).children().attr("data-charValue"));
+	healthPoints = parseInt($(this).children().attr("data-hpValue"));
 	
 });	
 
@@ -107,19 +112,20 @@ $(".thecont").parent().on("click", function(){
 $(".invisibleBox").on("click", function(){
 	console.log("the object enimy"+ $(this).children());
     var id = $(this).attr("id");
-    console.log("idobject"+id);
+    //console.log("idobject"+id);
     var num = id.split("-")[1]-1;
-    console.log(num);
+    //console.log(num);
     var oponent = enimies[num];
-    attackPower = parseInt($(this).children().attr("data-attackPower"));
-    youName = $(this).children().attr("data-name");
-    console.log("attackPower enimy"+attackPower);
-    console.log("name enimy"+youName);
+    enimyAttackPower = parseInt($(this).children().attr("data-attackPower"));
+    enimyName = $(this).children().attr("data-name");
+    enimyHp = parseInt($(this).children().attr("data-hpValue"));
+    // console.log("attackPower enimy"+enimyAttackPower);
+    console.log("hp enimy type"+typeof(enimyHp));
     index = enimies.indexOf(oponent);
     //console.log("selectedChar"+selectedChar);
     var enimy = [];
     enimies.splice(index, 1);
-    console.log("charArray"+enimies);
+    //console.log("charArray"+enimies);
     for (var i = 0; i < enimies.length; i++) {
     	if(enimies[i] != oponent) {
     		enimy.push(enimies[i]);
@@ -140,6 +146,7 @@ $(".invisibleBox").on("click", function(){
 
 // TODO: to count counterAttackPower and calculate healthpoint and change the property of object
 var parAttack = $("<p>");
+parAttack.attr("id", "parAttackStyle");
 var newHP =0;
 //parAttack.addClass("paragraph");
 //Attack Button
@@ -147,9 +154,33 @@ $("#attackButton").on("click", function(){
 		
 		console.log("on attack button click"+attackPower);
 		$("#attackCounter").append(parAttack);
+		// calculate counter Attack power of player
 		counterAttackPower = counterAttackPower + attackPower;
-		parAttack.text("You attacked "+2+" By "+attackPower+" damage!");
-		$("#map").prop(healthPoints, newHP);
+		// calculates health points of enimy
+		enimyHp = enimyHp-counterAttackPower;
+		playerHp = playerHp-enimyAttackPower;
+		parAttack.text("You attacked "+enimyName+" By "+counterAttackPower+" damage!  ");
+		//<br>"+enimyName+"\t Attacked you By "+enimyAttackPower+" damage!");
+		parAttack.append(enimyName+" Attacked you By "+enimyAttackPower+" damage!");
+		// set new attr bor player health points
+		//var newhpofplayer = $("div#map").children(".boxImage").attr("data-hpValue", playerHp);
+		//newhpofplayer.text(playerHp);
+		$("div#map").children().text(healthP.text(playerHp));
+		//console.log("data-hpValue of new player "+newhpofplayer);
+		//$("#map").prop(healthPoints, playerHp);
+		console.log("health point attack player"+playerHp);
+
 		//parAttack.text("health point of ob is"+healthPoints);
+
+
+
+		// here should check how much the player and enimy's health point are
+		if(playerHp <= 0){
+			var defeat = $("<p>");
+			defeat.attr("id", "parAttackStyle");
+			defeat.text("You have been defeated.....Game Over!");
+			$("#attackCounter").html(defeat);
+			$("#resetButton").show();
+		} 
 
 });
