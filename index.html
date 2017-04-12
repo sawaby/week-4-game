@@ -32,24 +32,24 @@
 				<div class="row" id="map">
 					<div class="col-md-3">
 						
-						<div id="character-1" class="box thecont">
+						<div id="character-1" class="box">
 
 						 </div>
 						
 					</div>
 
 					<div class="col-md-3">
-						<div id="character-2" class="box thecont">
+						<div id="character-2" class="box">
 							
 						</div>
 
 					</div>
 					<div class="col-md-3">
-						<div id="character-3" class="box thecont">
+						<div id="character-3" class="box">
 						</div>
 					</div>
 					<div class="col-md-3">
-						<div id="character-4" class="box thecont">
+						<div id="character-4" class="box">
 				 	
 						</div>
 					</div>
@@ -59,7 +59,7 @@
 			</div>
 			
 			<!-- defender -->
-			<div class="col-md-6" > 
+			<div class="col-md-6 col-md-push-4" id="defender"> 
 			</div>
 		</div>
 
@@ -76,7 +76,7 @@
 			</div>
 			<!-- Defender -->
 			<div class="col-md-6 text-right" >
-				<h2>DEFENDER</h2>
+				<h2 id="defend">DEFENDER</h2>
 			</div>
 		</div>
 			
@@ -85,9 +85,9 @@
 		<div class="row">
 			<!-- this col is for restart button and text about defeats and wins -->
 			<div class="col-md-6">
+				<!-- text goes here -->
 				<div id="attackCounter">
 				</div>
-				<!-- text goes here -->
 				
 				<!-- restart button -->
 				 <button id="resetButton" class="btn btn-default">Restart</button>
@@ -96,17 +96,15 @@
 			<!-- enemies right column -->
 			<div class="col-md-6 text-right">
 			<!-- enemies here -->
-				<div class="row" >
-					<div class="col-md-3 invisibleBox" id="notselectedchar-1">
-						
+				<div class="row" id="oponent">
+					<div class="col-md-3 invisibleBox" id="notselectedchar-1">	
 					</div>
+
 					<div class="col-md-3 invisibleBox" id="notselectedchar-2">
-						
 					</div>
+
 					<div class="col-md-3 invisibleBox" id="notselectedchar-3">
-						
 					</div>
-					
 				</div>
 				<!-- text here -->
 				<p id="p">Enemies Available to Attack</p>
