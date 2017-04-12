@@ -2,6 +2,7 @@
 body{
 	background-image: url("../images/background.jpg");
 	background-size: 100%;
+	background-repeat: no-repeat;
   	color: #000;
   	font-family:  'Bahiana', cursive;
   	letter-spacing: 3px;
