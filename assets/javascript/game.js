@@ -1,5 +1,6 @@
 
-
+var selectedPlayerID;
+var selectedEnemyID;
 var counterAttackPower = 0;
 
 
@@ -33,6 +34,8 @@ var charArray = [hansoloChar, mugChar, chewChar, legoChar];
 var container;
 var enimyCounterHp =0;
 var healthP;
+var isEnemySelected = false;
+
 function charCreation(id, charArray){
 	for(var i = 0; i < charArray.length; i++) {
 		//TODO handle p tag, and append everything to the contatiner and then the dom
@@ -48,15 +51,17 @@ function charCreation(id, charArray){
 			"data-hpValue":  charArray[i].healthPoints,
 			"data-name": charArray[i].name
 		});
+		container.attr("id", i);
 		console.log(container.attr("data-attackPower"));
 		//console.log(charArray[i].attackPower)
 		img.attr("src", charArray[i].imgSrc);
 		// p tag
 		var nameP = $("<p>")
+
 		nameP.addClass("paragraph");
 		nameP.text(charArray[i].name);
 		healthP = $("<p>");
-		healthP.addClass("paragraph");
+		healthP.addClass("paragraph health-p");
 		healthP.text(charArray[i].healthPoints);
 		container.append(nameP);
 		container.append(img);
@@ -70,6 +75,7 @@ var enimies = [];
 var attackPower;
 var youName;
 var enimyName;
+var enimyHp ;
 
 // when character is clicked add it to a variable called selectedChar
 // then add the other characters to a array called otherChars
@@ -77,12 +83,14 @@ var enimyName;
 $(".thecont").parent().on("click", function(){
 	//console.log("the object"+ $(this).children());
     var id = $(this).attr("id");
+    selectedPlayerID = id;
     //console.log("idobject"+id);
     var num = id.split("-")[1]-1;
    // console.log(num);
     var selectedChar = charArray[num];
     attackPower = parseInt($(this).children().attr("data-attackPower"));
     playerHp = parseInt($(this).children().attr("data-hpValue"));
+    console.log("playerHp:" + playerHp);
    // youName = $(this).children().attr("data-name");
    // console.log("attackPower"+attackPower);
     index = charArray.indexOf(selectedChar);
@@ -102,7 +110,7 @@ $(".thecont").parent().on("click", function(){
     charCreation("#notselectedchar-", enimies);
     //console.log($(this));
 	
-	healthPoints = parseInt($(this).children().attr("data-hpValue"));
+	//healthPoints = parseInt($(this).children().attr("data-hpValue"));
 	
 });	
 
@@ -112,6 +120,7 @@ $(".thecont").parent().on("click", function(){
 $(".invisibleBox").on("click", function(){
 	console.log("the object enimy"+ $(this).children());
     var id = $(this).attr("id");
+    selectedEnemyID = id;
     //console.log("idobject"+id);
     var num = id.split("-")[1]-1;
     //console.log(num);
@@ -142,6 +151,7 @@ $(".invisibleBox").on("click", function(){
     });
    // $(this).off("click");
 	
+	isEnemySelected = true;
 });	
 
 // TODO: to count counterAttackPower and calculate healthpoint and change the property of object
@@ -151,21 +161,27 @@ var newHP =0;
 //parAttack.addClass("paragraph");
 //Attack Button
 $("#attackButton").on("click", function(){
-		
+		if (isEnemySelected) {
+
 		console.log("on attack button click"+attackPower);
-		$("#attackCounter").append(parAttack);
+		
 		// calculate counter Attack power of player
 		counterAttackPower = counterAttackPower + attackPower;
 		// calculates health points of enimy
 		enimyHp = enimyHp-counterAttackPower;
+		console.log("enimy health point"+enimyHp);
 		playerHp = playerHp-enimyAttackPower;
-		parAttack.text("You attacked "+enimyName+" By "+counterAttackPower+" damage!  ");
+		parAttack.text("You attacked "+enimyName+" By "+counterAttackPower+" damage! \n ");
+		$("#attackCounter").append(parAttack);
 		//<br>"+enimyName+"\t Attacked you By "+enimyAttackPower+" damage!");
 		parAttack.append(enimyName+" Attacked you By "+enimyAttackPower+" damage!");
 		// set new attr bor player health points
 		//var newhpofplayer = $("div#map").children(".boxImage").attr("data-hpValue", playerHp);
 		//newhpofplayer.text(playerHp);
-		$("div#map").children().text(healthP.text(playerHp));
+		//$("#"+).find(".health-p").text()
+		$("#"+selectedPlayerID).find(".health-p").text(playerHp);
+		$("#"+selectedEnemyID).find(".health-p").text(enimyxHp);
+		// $("div#map").children().text(healthP.text(playerHp));
 		//console.log("data-hpValue of new player "+newhpofplayer);
 		//$("#map").prop(healthPoints, playerHp);
 		console.log("health point attack player"+playerHp);
@@ -183,4 +199,22 @@ $("#attackButton").on("click", function(){
 			$("#resetButton").show();
 		} 
 
-});
+		if(enimyHp <=0){
+			$("#defender").html('');
+			isEnemySelected = false;
+		}
+	} else {
+		alert('Please select an enemy before attacking!');
+	}
+
+
+});//end of attack button on click
+
+// reset button function
+$("#resetButton").on("click", function(){
+	// emtpy all accupied spaces
+	$("#map").html('');
+	$("#defender").html('');
+	$("#oponent").html('');
+	charCreation("#character-", charArray);
+});//end of reset button on click
