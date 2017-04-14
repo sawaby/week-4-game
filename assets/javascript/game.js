@@ -115,10 +115,12 @@ $(".thecont").parent().on("click", function(){
 });	
 
 
-
+var counterEnimy=0;
 // invisible click enimies
 $(".invisibleBox").on("click", function(){
+	$("#attackCounter").html('');
 	console.log("the object enimy"+ $(this).children());
+	counterEnimy++;
     var id = $(this).attr("id");
     selectedEnemyID = id;
     //console.log("idobject"+id);
@@ -158,10 +160,14 @@ $(".invisibleBox").on("click", function(){
 var parAttack = $("<p>");
 parAttack.attr("id", "parAttackStyle");
 var newHP =0;
+//this paragraph is created to show the defeats, attacks lose and wins
+var defeat = $("<p>");
+defeat.attr("id", "parAttackStyle");
 //parAttack.addClass("paragraph");
 //Attack Button
 $("#attackButton").on("click", function(){
-		if (isEnemySelected) {
+	
+	if (isEnemySelected) {
 
 		console.log("on attack button click"+attackPower);
 		
@@ -172,6 +178,7 @@ $("#attackButton").on("click", function(){
 		console.log("enimy health point"+enimyHp);
 		playerHp = playerHp-enimyAttackPower;
 		parAttack.text("You attacked "+enimyName+" By "+counterAttackPower+" damage! \n ");
+		$("#attackCounter").html('');
 		$("#attackCounter").append(parAttack);
 		//<br>"+enimyName+"\t Attacked you By "+enimyAttackPower+" damage!");
 		parAttack.append(enimyName+" Attacked you By "+enimyAttackPower+" damage!");
@@ -180,11 +187,11 @@ $("#attackButton").on("click", function(){
 		//newhpofplayer.text(playerHp);
 		//$("#"+).find(".health-p").text()
 		$("#"+selectedPlayerID).find(".health-p").text(playerHp);
-		$("#"+selectedEnemyID).find(".health-p").text(enimyxHp);
+		$("#"+selectedEnemyID).find(".health-p").text(enimyHp);
 		// $("div#map").children().text(healthP.text(playerHp));
 		//console.log("data-hpValue of new player "+newhpofplayer);
 		//$("#map").prop(healthPoints, playerHp);
-		console.log("health point attack player"+playerHp);
+		//console.log("health point attack player"+playerHp);
 
 		//parAttack.text("health point of ob is"+healthPoints);
 
@@ -192,29 +199,43 @@ $("#attackButton").on("click", function(){
 
 		// here should check how much the player and enimy's health point are
 		if(playerHp <= 0){
-			var defeat = $("<p>");
-			defeat.attr("id", "parAttackStyle");
+			
 			defeat.text("You have been defeated.....Game Over!");
+
 			$("#attackCounter").html(defeat);
 			$("#resetButton").show();
+			$(".invisibleBox").off("click");
+			$(this).off("click");
 		} 
 
 		if(enimyHp <=0){
 			$("#defender").html('');
 			isEnemySelected = false;
+			if(enimyHp <=0 && playerHp >0){
+				defeat.text("You have defeated "+enimyName+", you can choose to fight another enemy.");
+				$("#attackCounter").html(defeat);
+			}else{
+				defeat.text("You have defeated "+enimyName+", You have also been defeated, Play Again.");
+				$("#attackCounter").html(defeat);
+			}
 		}
 	} else {
-		alert('Please select an enemy before attacking!');
+		defeat.text("Please select an enemy before attacking!");
+		$("#attackCounter").html(defeat);
+		//alert('Please select an enemy before attacking!');
 	}
-
+	//Game Over!
+	if(counterEnimy == 3 && enimyHp <= 0){
+		console.log("game over "+ counterEnimy);
+		defeat.text("You Won.....Game Over!");
+		$("#attackCounter").html(defeat);
+		$("#resetButton").show();
+		$(this).off("click");
+	}
 
 });//end of attack button on click
 
 // reset button function
 $("#resetButton").on("click", function(){
-	// emtpy all accupied spaces
-	$("#map").html('');
-	$("#defender").html('');
-	$("#oponent").html('');
-	charCreation("#character-", charArray);
+	location.reload();
 });//end of reset button on click
