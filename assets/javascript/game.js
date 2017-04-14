@@ -154,6 +154,7 @@ $(".invisibleBox").on("click", function(){
    // $(this).off("click");
 	
 	isEnemySelected = true;
+
 });	
 
 // TODO: to count counterAttackPower and calculate healthpoint and change the property of object
@@ -223,6 +224,10 @@ $("#attackButton").on("click", function(){
 		defeat.text("Please select an enemy before attacking!");
 		$("#attackCounter").html(defeat);
 		//alert('Please select an enemy before attacking!');
+	}
+	if(counterEnimy ==2 && enimyHp <= 0){
+		var audio = new Audio('./assets/policepass.wav');
+		audio.play();
 	}
 	//Game Over!
 	if(counterEnimy == 3 && enimyHp <= 0){
